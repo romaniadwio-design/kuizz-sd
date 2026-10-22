@@ -1,9 +1,9 @@
- <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="id" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Pengurangan Seru SD Kelas 2</title>
+    <title>Kuis Matematika Seru SD Kelas 2 - Romania</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -12,6 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti Library untuk Kembang Api & Konfeti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -19,9 +21,9 @@
                 extend: {
                     colors: {
                         kid: {
-                            bg: '#F0F9FF',
-                            primary: '#0284C7',
-                            accent: '#F59E0B',
+                            bg: '#0F172A',
+                            primary: '#8B5CF6',
+                            accent: '#F43F5E',
                             correct: '#10B981',
                             wrong: '#EF4444'
                         }
@@ -36,76 +38,208 @@
     </script>
 
     <style>
+        /* TEMA WARNA MODERN BOLD GRADIENT */
         body {
-            background-color: #E0F2FE;
-            background-image: radial-gradient(#BAE6FD 2px, transparent 2px);
-            background-size: 24px 24px;
+            background: #0B0F19;
+            position: relative;
+            overflow-x: hidden;
         }
+
+        /* Continuous Moving Grid Background */
+        .math-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            background-image: 
+                radial-gradient(rgba(139, 92, 246, 0.4) 2.5px, transparent 2.5px),
+                linear-gradient(to right, rgba(244, 63, 94, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px, 80px 80px, 80px 80px;
+            animation: moveBg 18s linear infinite;
+        }
+
+        @keyframes moveBg {
+            0% { background-position: 0 0, 0 0, 0 0; }
+            100% { background-position: 400px 800px, 400px 400px, 400px 400px; }
+        }
+
+        /* Glowing Aurora Orbs yang Energik */
+        .aurora-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatOrb 8s ease-in-out infinite alternate;
+        }
+
+        .aurora-1 {
+            top: -15%;
+            left: -10%;
+            width: 55vw;
+            height: 55vw;
+            background: radial-gradient(circle, #7C3AED, #EC4899, transparent);
+        }
+
+        .aurora-2 {
+            bottom: -20%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, #06B6D4, #3B82F6, transparent);
+            animation-delay: -4s;
+        }
+
+        .aurora-3 {
+            top: 30%;
+            right: 20%;
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, #F59E0B, #EF4444, transparent);
+            opacity: 0.35;
+            animation-delay: -2s;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 60px) scale(1.2); }
+        }
+
+        /* Floating Math Elements */
+        .math-symbol {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.22);
+            text-shadow: 0 0 15px rgba(236, 72, 153, 0.6);
+            font-family: 'Fredoka', sans-serif;
+            font-weight: bold;
+            user-select: none;
+            animation: floatSymbol 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatSymbol {
+            0% { transform: translateY(0px) rotate(0deg) scale(1); }
+            50% { transform: translateY(-40px) rotate(20deg) scale(1.2); }
+            100% { transform: translateY(30px) rotate(-18deg) scale(0.9); }
+        }
+
+        /* KARTU JAUH LEBIH BESAR DENGAN STYLING PREMIUM */
         .glass-box {
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(24px);
+            border: 4px solid rgba(244, 63, 94, 0.5);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(139, 92, 246, 0.3);
         }
+
         .btn-bounce:active {
-            transform: scale(0.95);
+            transform: scale(0.96);
         }
+
         @keyframes pulse-timer {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.15); }
         }
+
         .timer-warning {
-            animation: pulse-timer 0.6s infinite;
+            animation: pulse-timer 0.5s infinite;
             color: #EF4444 !important;
+        }
+
+        /* ANIMASI EMOTICON SEDIH SAAT SALAH */
+        @keyframes floatSadEmot {
+            0% { opacity: 0; transform: translate(-50%, -40%) scale(0.4) rotate(-10deg); }
+            25% { opacity: 1; transform: translate(-50%, -50%) scale(1.3) rotate(0deg); }
+            75% { opacity: 1; transform: translate(-50%, -70%) scale(1.1) rotate(5deg); }
+            100% { opacity: 0; transform: translate(-50%, -100%) scale(0.8) rotate(0deg); }
+        }
+
+        .animate-sad-emot {
+            animation: floatSadEmot 1.4s ease-out forwards;
         }
     </style>
 </head>
-<body class="font-sans text-slate-800 min-h-full flex flex-col justify-between antialiased">
+<body class="font-sans text-slate-800 min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- EFEK AURORA NEON GLOW DI BACKGROUND -->
+    <div class="aurora-orb aurora-1"></div>
+    <div class="aurora-orb aurora-2"></div>
+    <div class="aurora-orb aurora-3"></div>
+
+    <!-- MATEMATIKA ANIMATED BACKGROUND GRID -->
+    <div class="math-bg"></div>
+
+    <!-- SIMBOL MATEMATIKA MELAYANG DI BACKGROUND -->
+    <div class="math-symbol text-7xl top-[10%] left-[5%]" style="animation-delay: 0s;">+</div>
+    <div class="math-symbol text-8xl top-[20%] right-[8%]" style="animation-delay: -2s;">−</div>
+    <div class="math-symbol text-7xl top-[60%] left-[6%]" style="animation-delay: -4s;">kg</div>
+    <div class="math-symbol text-7xl top-[75%] right-[10%]" style="animation-delay: -6s;">ons</div>
+    <div class="math-symbol text-9xl top-[40%] right-[45%]" style="animation-delay: -3s; color: rgba(255, 255, 255, 0.15);">1 kg</div>
+    <div class="math-symbol text-7xl top-[85%] left-[40%]" style="animation-delay: -5s;">=</div>
+
+    <!-- OVERLAY EMOTICON SEDIH -->
+    <div id="sadOverlay" class="fixed inset-0 pointer-events-none z-50 hidden">
+        <div id="sadEmoji" class="absolute top-1/2 left-1/2 text-9xl md:text-[12rem] filter drop-shadow-2xl">
+            😭
+        </div>
+    </div>
 
     <!-- HEADER -->
-    <header class="bg-sky-500 text-white shadow-lg border-b-4 border-sky-600">
-        <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="showScreen('loginScreen')">
-                <div class="w-10 h-10 rounded-2xl bg-amber-400 text-sky-900 flex items-center justify-center font-bold text-xl shadow">
-                    <i class="fa-solid fa-calculator"></i>
+    <header class="bg-gradient-to-r from-purple-700 via-pink-600 to-rose-600 backdrop-blur-md text-white shadow-2xl border-b-4 border-rose-400 relative z-10">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-4 cursor-pointer" onclick="showScreen('loginScreen')">
+                <div class="w-12 h-12 rounded-2xl bg-amber-400 text-purple-950 flex items-center justify-center font-bold text-2xl shadow-xl border-2 border-amber-200">
+                    <i class="fa-solid fa-weight-hanging"></i>
                 </div>
                 <div>
-                    <h1 class="font-fredoka font-bold text-lg md:text-xl leading-tight tracking-wide">KUIS MATEMATIKA</h1>
-                    <p class="text-[10px] md:text-xs text-sky-100 font-semibold">Pengurangan Kelas 2 SD</p>
+                    <h1 class="font-fredoka font-bold text-xl md:text-2xl leading-tight tracking-wide">KUIS MATEMATIKA</h1>
+                    <p class="text-xs md:text-sm text-rose-100 font-semibold">Pengukuran Berat Kelas 3 SD</p>
                 </div>
             </div>
 
-            <div class="flex items-center space-x-3">
-                <div id="playerBadge" class="hidden bg-sky-700/60 px-3 py-1 rounded-full text-xs font-bold text-sky-100 border border-sky-400">
-                    <i class="fa-solid fa-user-ninja mr-1"></i> <span id="playerNameDisplay">Siswa</span>
+            <div class="flex items-center space-x-4">
+                <div id="playerBadge" class="hidden bg-purple-900/80 px-4 py-1.5 rounded-full text-xs md:text-sm font-bold text-purple-100 border border-purple-400 shadow">
+                    <i class="fa-solid fa-user-ninja mr-1.5 text-amber-300"></i> <span id="playerNameDisplay">Siswa</span>
                 </div>
-                <div class="bg-amber-400 text-amber-950 px-3 py-1 rounded-full flex items-center space-x-1.5 font-fredoka font-bold text-sm shadow">
-                    <i class="fa-solid fa-star text-amber-600"></i>
-                    <span id="globalStars">0</span>
+                <!-- SKOR DI HEADER -->
+                <div class="bg-amber-400 text-amber-950 px-4 py-1.5 rounded-full flex items-center space-x-2 font-fredoka font-bold text-base shadow-lg border-2 border-amber-300">
+                    <i class="fa-solid fa-trophy text-amber-700"></i>
+                    <span>Skor: <span id="globalScore">0</span></span>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- MAIN CONTAINER -->
-    <main class="max-w-2xl w-full mx-auto p-4 my-auto relative z-10 flex-grow flex items-center justify-center">
+    <main class="max-w-4xl w-full mx-auto p-4 md:p-6 my-auto relative z-10 flex-grow flex items-center justify-center">
 
         <!-- 1. HALAMAN LOGIN/MULAI -->
-        <section id="loginScreen" class="w-full glass-box rounded-3xl p-6 md:p-8 shadow-2xl border-4 border-sky-300 text-center">
-            <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-amber-100 border-4 border-amber-400 flex items-center justify-center text-4xl text-amber-500 shadow-inner">
-                <i class="fa-solid fa-face-smile-wink"></i>
+        <section id="loginScreen" class="w-full glass-box rounded-3xl p-8 md:p-12 shadow-2xl text-center">
+            <div class="w-24 h-24 mx-auto mb-5 rounded-full bg-gradient-to-tr from-amber-300 to-yellow-400 border-4 border-amber-200 flex items-center justify-center text-6xl text-amber-800 shadow-lg animate-bounce">
+                <i class="fa-solid fa-face-grin-stars"></i>
             </div>
 
-            <h2 class="font-fredoka text-3xl font-bold text-sky-900 mb-2">Siap Belajar Pengurangan?</h2>
-            <p class="text-slate-600 text-sm md:text-base max-w-sm mx-auto mb-6">
-                Ada 5 soal tantangan. Waktumu <b>1 menit per soal</b>! Jangan lupa aktifkan suaramu ya 🔊
+            <!-- IDENTITAS PEMILIK KUIS -->
+            <div class="inline-flex items-center gap-2.5 bg-gradient-to-r from-purple-100 to-rose-100 text-purple-900 px-5 py-2 rounded-full border-2 border-purple-300 font-fredoka text-sm md:text-base font-bold mb-4 shadow-sm">
+                <i class="fa-solid fa-crown text-amber-500 text-lg"></i>
+                <span>Kuis oleh: <b class="text-rose-600">Romania</b></span>
+            </div>
+
+            <h2 class="font-fredoka text-3xl md:text-5xl font-bold text-purple-950 mb-3">Siap Belajar Ukur Berat?</h2>
+            <p class="text-slate-600 text-base md:text-lg max-w-md mx-auto mb-8 font-medium leading-relaxed">
+                Ada 5 soal tantangan. Waktumu <b>1 menit 30 detik per soal</b>! Pastikan suaramu aktif ya 🔊
             </p>
 
-            <form onsubmit="handleStartQuiz(event)" class="max-w-sm mx-auto space-y-4">
+            <form onsubmit="handleStartQuiz(event)" class="max-w-md mx-auto space-y-5">
                 <div>
-                    <label class="block text-left font-fredoka text-sky-800 text-sm font-semibold mb-1">Tulis Namamu:</label>
-                    <input type="text" id="studentNameInput" required placeholder="Contoh: Budi" class="w-full px-4 py-3 rounded-2xl border-2 border-sky-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 outline-none font-bold text-slate-700 text-center text-lg shadow-sm">
+                    <label class="block text-left font-fredoka text-purple-900 text-base md:text-lg font-semibold mb-2">Tulis Namamu:</label>
+                    <input type="text" id="studentNameInput" required placeholder="Contoh: Budi" class="w-full px-5 py-4 rounded-2xl border-4 border-purple-200 focus:border-rose-500 focus:ring-4 focus:ring-rose-200 outline-none font-bold text-slate-800 text-center text-xl md:text-2xl shadow-inner transition">
                 </div>
 
-                <button type="submit" class="btn-bounce w-full bg-amber-400 hover:bg-amber-500 text-amber-950 font-fredoka font-bold text-xl py-3.5 px-6 rounded-2xl shadow-lg border-b-4 border-amber-600 transition flex items-center justify-center space-x-2">
+                <button type="submit" class="btn-bounce w-full bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-amber-950 font-fredoka font-bold text-2xl py-4 px-8 rounded-2xl shadow-xl border-b-4 border-amber-700 transition flex items-center justify-center space-x-3">
                     <span>Mulai Kuis</span>
                     <i class="fa-solid fa-play"></i>
                 </button>
@@ -113,84 +247,67 @@
         </section>
 
         <!-- 2. HALAMAN KUIS / SOAL -->
-        <section id="quizScreen" class="hidden w-full glass-box rounded-3xl p-5 md:p-8 shadow-2xl border-4 border-sky-300">
+        <section id="quizScreen" class="hidden w-full glass-box rounded-3xl p-6 md:p-10 shadow-2xl">
             <!-- STATUS BAR & TIMER -->
-            <div class="flex items-center justify-between mb-4 bg-sky-50 p-3 rounded-2xl border border-sky-200">
-                <div class="flex items-center space-x-2">
-                    <span class="bg-sky-500 text-white font-fredoka text-xs px-3 py-1 rounded-full">Soal</span>
-                    <span id="questionProgress" class="font-fredoka font-bold text-sky-900 text-base">1 / 5</span>
+            <div class="flex items-center justify-between mb-6 bg-purple-50 p-4 rounded-2xl border-2 border-purple-200">
+                <div class="flex items-center space-x-3">
+                    <span class="bg-gradient-to-r from-purple-600 to-rose-600 text-white font-fredoka text-sm md:text-base px-4 py-1.5 rounded-full shadow">Soal</span>
+                    <span id="questionProgress" class="font-fredoka font-bold text-purple-950 text-xl md:text-2xl">1 / 5</span>
                 </div>
 
-                <!-- TIMER 1 MENIT -->
-                <div class="flex items-center space-x-2 bg-white px-3 py-1 rounded-xl border border-sky-200 shadow-sm">
-                    <i class="fa-solid fa-stopwatch text-amber-500 text-lg" id="timerIcon"></i>
-                    <span id="timerText" class="font-fredoka font-bold text-sky-900 text-lg w-10 text-center">01:00</span>
-                </div>
-
-                <div class="flex items-center space-x-1" id="heartsContainer">
-                    <i class="fa-solid fa-heart text-rose-500 text-lg"></i>
-                    <i class="fa-solid fa-heart text-rose-500 text-lg"></i>
-                    <i class="fa-solid fa-heart text-rose-500 text-lg"></i>
+                <!-- TIMER 90 DETIK (01:30) -->
+                <div class="flex items-center space-x-2.5 bg-white px-5 py-2 rounded-2xl border-2 border-purple-200 shadow-sm">
+                    <i class="fa-solid fa-stopwatch text-amber-500 text-2xl" id="timerIcon"></i>
+                    <span id="timerText" class="font-fredoka font-bold text-purple-950 text-xl md:text-2xl w-16 text-center">01:30</span>
                 </div>
             </div>
 
             <!-- PROGRESS BAR WAKTU -->
-            <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden mb-6">
-                <div id="timerBar" class="bg-amber-400 h-full w-full transition-all duration-1000 linear"></div>
+            <div class="w-full bg-slate-200 h-3.5 rounded-full overflow-hidden mb-8 shadow-inner">
+                <div id="timerBar" class="bg-gradient-to-r from-amber-400 to-yellow-500 h-full w-full transition-all duration-1000 linear"></div>
             </div>
 
-            <!-- KARTU SOAL PENGURANGAN -->
-            <div class="text-center mb-6">
-                <p class="text-xs md:text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">Berapa Hasil Pengurangan Ini?</p>
+            <!-- KARTU SOAL PENGUKURAN BERAT -->
+            <div class="text-center mb-8">
+                <p class="text-xs md:text-sm font-bold text-purple-600 uppercase tracking-widest mb-3">Pertanyaan Kuis:</p>
 
-                <div class="bg-gradient-to-r from-sky-400 to-indigo-500 text-white rounded-3xl p-6 shadow-lg border-4 border-white mb-4">
-                    <h3 id="mathQuestionText" class="font-fredoka text-5xl md:text-6xl font-bold tracking-wide">
-                        12 - 5 = ?
+                <div class="bg-gradient-to-r from-purple-700 via-indigo-700 to-rose-600 text-white rounded-3xl p-6 md:p-8 shadow-2xl border-4 border-white">
+                    <h3 id="mathQuestionText" class="font-fredoka text-2xl md:text-4xl font-bold tracking-wide leading-relaxed">
+                        Soal...
                     </h3>
-                </div>
-
-                <!-- BANTUAN VISUAL GAMBAR -->
-                <button onclick="toggleVisualHelp()" class="text-xs font-bold text-sky-700 bg-sky-100 hover:bg-sky-200 px-3 py-1.5 rounded-xl border border-sky-300 transition inline-flex items-center gap-1.5">
-                    <i class="fa-solid fa-apple-whole text-rose-500"></i>
-                    <span id="helpBtnText">Tampilkan Bantuan Gambar Apel</span>
-                </button>
-
-                <div id="visualHelpBox" class="hidden mt-4 bg-amber-50 p-4 rounded-2xl border-2 border-dashed border-amber-300">
-                    <p class="text-xs font-bold text-amber-800 mb-2">Hitung Apel (Apel pudar = yang dikurangi):</p>
-                    <div id="applesContainer" class="flex flex-wrap justify-center gap-1.5 text-xl md:text-2xl max-h-40 overflow-y-auto"></div>
                 </div>
             </div>
 
             <!-- PILIHAN JAWABAN -->
-            <div id="optionsContainer" class="grid grid-cols-2 gap-3.5 max-w-md mx-auto"></div>
+            <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5 max-w-2xl mx-auto"></div>
         </section>
 
         <!-- 3. HALAMAN HASIL / SKOR -->
-        <section id="resultScreen" class="hidden w-full glass-box rounded-3xl p-6 md:p-8 shadow-2xl border-4 border-sky-300 text-center">
-            <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-amber-100 border-4 border-amber-400 flex items-center justify-center text-5xl text-amber-500 shadow-md">
+        <section id="resultScreen" class="hidden w-full glass-box rounded-3xl p-8 md:p-12 shadow-2xl text-center">
+            <div class="w-28 h-28 mx-auto mb-5 rounded-full bg-amber-100 border-4 border-amber-400 flex items-center justify-center text-6xl text-amber-500 shadow-lg">
                 <i class="fa-solid fa-trophy"></i>
             </div>
 
-            <h2 class="font-fredoka text-3xl font-bold text-sky-900 mb-1">Hore! Kuis Selesai!</h2>
-            <p id="resultMessage" class="text-slate-600 text-sm font-medium mb-6">Hebat sekali, kamu berhasil menyelesaikan tantangan!</p>
+            <h2 class="font-fredoka text-4xl md:text-5xl font-bold text-purple-950 mb-2">Hore! Kuis Selesai!</h2>
+            <p id="resultMessage" class="text-slate-600 text-base md:text-lg font-medium mb-8">Hebat sekali, kamu berhasil menyelesaikan tantangan!</p>
 
-            <div class="bg-sky-50 rounded-2xl p-4 max-w-xs mx-auto mb-6 border-2 border-sky-200 grid grid-cols-2 gap-3">
+            <div class="bg-purple-50 rounded-3xl p-6 max-w-md mx-auto mb-8 border-2 border-purple-200 grid grid-cols-2 gap-4 shadow-sm">
                 <div>
-                    <span class="block text-xs font-bold text-sky-600 uppercase">Benar</span>
-                    <span id="finalScoreText" class="font-fredoka text-3xl font-bold text-sky-900">0 / 5</span>
+                    <span class="block text-xs md:text-sm font-bold text-purple-600 uppercase tracking-wider">Jawaban Benar</span>
+                    <span id="finalCorrectText" class="font-fredoka text-4xl font-bold text-purple-950">0 / 5</span>
                 </div>
                 <div>
-                    <span class="block text-xs font-bold text-sky-600 uppercase">Total Bintang</span>
-                    <span id="finalStarsText" class="font-fredoka text-3xl font-bold text-amber-500">0 ★</span>
+                    <span class="block text-xs md:text-sm font-bold text-purple-600 uppercase tracking-wider">Total Skor</span>
+                    <span id="finalScoreText" class="font-fredoka text-4xl font-bold text-amber-500">0</span>
                 </div>
             </div>
 
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-xs mx-auto">
-                <button onclick="startQuiz()" class="btn-bounce w-full bg-amber-400 hover:bg-amber-500 text-amber-950 font-fredoka font-bold py-3 px-6 rounded-2xl shadow-md border-b-4 border-amber-600 transition flex items-center justify-center gap-2">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
+                <button onclick="startQuiz()" class="btn-bounce w-full bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-amber-950 font-fredoka font-bold text-xl py-4 px-8 rounded-2xl shadow-lg border-b-4 border-amber-700 transition flex items-center justify-center gap-3">
                     <i class="fa-solid fa-rotate-right"></i>
                     <span>Coba Lagi</span>
                 </button>
-                <button onclick="showScreen('loginScreen')" class="btn-bounce w-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-fredoka font-bold py-3 px-6 rounded-2xl shadow-md transition">
+                <button onclick="showScreen('loginScreen')" class="btn-bounce w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-fredoka font-bold text-xl py-4 px-8 rounded-2xl shadow-md transition">
                     Ganti Nama
                 </button>
             </div>
@@ -199,33 +316,53 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-sky-600 text-sky-100 text-xs text-center py-3 font-medium border-t border-sky-400">
-        <p>&copy; 2026 Kuis Matematika SD Kelas 2 — Belajar Pengurangan Ceria</p>
+    <footer class="bg-slate-950/90 backdrop-blur-md text-purple-200 text-xs md:text-sm text-center py-4 font-medium border-t border-purple-900/50 relative z-10">
+        <p>&copy; 2026 Kuis Matematika SD Kelas 3 — Dibuat oleh <b>Romania</b></p>
     </footer>
 
     <!-- LOGIKA JAVASCRIPT -->
     <script>
-        // SOAL KHUSUS PENGURANGAN SESUAI PERMINTAAN
+        // SOAL PENGUKURAN BERAT BENDA
         const QUIZ_QUESTIONS = [
-            { num1: 12, num2: 5, answer: 7, options: [6, 7, 8, 5] },
-            { num1: 15, num2: 3, answer: 12, options: [11, 12, 13, 10] },
-            { num1: 23, num2: 12, answer: 11, options: [10, 11, 12, 13] },
-            { num1: 32, num2: 15, answer: 17, options: [16, 17, 18, 15] },
-            { num1: 43, num2: 27, answer: 16, options: [15, 16, 17, 18] }
+            {
+                question: "Alat yang digunakan untuk mengukur berat benda adalah…",
+                answer: "Timbangan",
+                options: ["Timbangan", "Termometer", "Timbangan Badan", "Meteran"]
+            },
+            {
+                question: "Satuan baku yang digunakan untuk mengukur berat adalah…",
+                answer: "Ons dan kilogram",
+                options: ["Sentimeter dan meter", "Ons dan kilogram", "Liter dan mililiter", "Menit dan jam"]
+            },
+            {
+                question: "3 kilogram (kg) sama dengan … ons",
+                answer: "30 ons",
+                options: ["300 ons", "3.000 ons", "30 ons", "3 ons"]
+            },
+            {
+                question: "Jika sebuah semangka beratnya 5 kg, maka dalam ons beratnya adalah …",
+                answer: "50 ons",
+                options: ["5.000 ons", "500 ons", "5 ons", "50 ons"]
+            },
+            {
+                question: "Contoh benda yang beratnya biasanya diukur dalam kilogram (kg) adalah …",
+                answer: "Beras",
+                options: ["Sebungkus Permen", "Lemari", "Beras", "Mobil"]
+            }
         ];
 
         let currentQuestionIndex = 0;
-        let score = 0;
-        let stars = 0;
-        let lives = 3;
+        let correctAnswers = 0;
+        let totalScore = 0;
         let isProcessing = false;
         let studentName = '';
         
-        // Timer Variables
-        let timeLeft = 60; // 1 Menit
+        // Timer Variables (90 Detik = 1.5 Menit per soal)
+        const TOTAL_TIME_PER_QUESTION = 90;
+        let timeLeft = TOTAL_TIME_PER_QUESTION;
         let timerInterval = null;
 
-        // WEB AUDIO SYNTHESIZER (Tanpa File Eksternal)
+        // WEB AUDIO SYNTHESIZER
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         function playSound(type) {
@@ -235,47 +372,92 @@
             
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
+            const compressor = audioCtx.createDynamicsCompressor();
+
             osc.connect(gain);
-            gain.connect(audioCtx.destination);
+            gain.connect(compressor);
+            compressor.connect(audioCtx.destination);
 
             const now = audioCtx.currentTime;
 
             if (type === 'correct') {
-                // Suara Ting-Ting Ceria (Arpeggio Major)
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(523.25, now); // C5
-                osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
-                osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
-                osc.frequency.setValueAtTime(1046.50, now + 0.3); // C6
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now);
+                osc.frequency.setValueAtTime(659.25, now + 0.08);
+                osc.frequency.setValueAtTime(783.99, now + 0.16);
+                osc.frequency.setValueAtTime(1046.50, now + 0.24);
 
-                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.setValueAtTime(1.0, now);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
 
                 osc.start(now);
                 osc.stop(now + 0.6);
             } else if (type === 'wrong') {
-                // Suara Tet-Tet Salah (Low Sawtooth)
                 osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(180, now);
-                osc.frequency.setValueAtTime(130, now + 0.15);
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.setValueAtTime(140, now + 0.15);
 
-                gain.gain.setValueAtTime(0.3, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                gain.gain.setValueAtTime(1.0, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.45);
 
                 osc.start(now);
-                osc.stop(now + 0.4);
-            } else if (type === 'timeout') {
-                // Suara Waktu Habis
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(300, now);
-                osc.frequency.setValueAtTime(150, now + 0.2);
+                osc.stop(now + 0.45);
+            } else if (type === 'warning') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(950, now);
 
-                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.setValueAtTime(0.8, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+
+                osc.start(now);
+                osc.stop(now + 0.12);
+            } else if (type === 'timeout') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(350, now);
+                osc.frequency.setValueAtTime(180, now + 0.2);
+
+                gain.gain.setValueAtTime(1.0, now);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
 
                 osc.start(now);
                 osc.stop(now + 0.5);
             }
+        }
+
+        function triggerFireworks() {
+            const count = 200;
+            const defaults = { origin: { y: 0.7 } };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        }
+
+        function triggerSadEmoticon() {
+            const overlay = document.getElementById('sadOverlay');
+            const emoji = document.getElementById('sadEmoji');
+            
+            const sadEmojis = ['😭', '😢', '💔', '🥺', '😞'];
+            emoji.innerText = sadEmojis[Math.floor(Math.random() * sadEmojis.length)];
+
+            overlay.classList.remove('hidden');
+            emoji.classList.remove('animate-sad-emot');
+            
+            void emoji.offsetWidth;
+            
+            emoji.classList.add('animate-sad-emot');
+
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 1400);
         }
 
         function showScreen(screenId) {
@@ -299,31 +481,18 @@
 
         function startQuiz() {
             currentQuestionIndex = 0;
-            score = 0;
-            stars = 0;
-            lives = 3;
+            correctAnswers = 0;
+            totalScore = 0;
             isProcessing = false;
 
-            document.getElementById('globalStars').innerText = stars;
+            document.getElementById('globalScore').innerText = totalScore;
             showScreen('quizScreen');
             renderQuestion();
         }
 
-        function renderHearts() {
-            const container = document.getElementById('heartsContainer');
-            container.innerHTML = '';
-            for (let i = 0; i < 3; i++) {
-                const heart = document.createElement('i');
-                heart.className = i < lives 
-                    ? 'fa-solid fa-heart text-rose-500 text-lg' 
-                    : 'fa-regular fa-heart text-slate-300 text-lg';
-                container.appendChild(heart);
-            }
-        }
-
         function startTimer() {
             clearInterval(timerInterval);
-            timeLeft = 60; // Reset ke 1 Menit (60 Detik)
+            timeLeft = TOTAL_TIME_PER_QUESTION; // 90 Detik
             
             const timerText = document.getElementById('timerText');
             const timerBar = document.getElementById('timerBar');
@@ -337,16 +506,17 @@
                 const secs = timeLeft % 60;
                 timerText.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
                 
-                // Progress bar animasi
-                const percentage = (timeLeft / 60) * 100;
+                const percentage = (timeLeft / TOTAL_TIME_PER_QUESTION) * 100;
                 timerBar.style.width = `${percentage}%`;
 
-                if (timeLeft <= 10) {
+                if (timeLeft <= 15 && timeLeft > 0) {
                     timerText.classList.add('timer-warning');
                     timerIcon.classList.add('timer-warning');
                     timerBar.className = 'bg-rose-500 h-full transition-all duration-1000 linear';
+                    
+                    playSound('warning');
                 } else {
-                    timerBar.className = 'bg-amber-400 h-full transition-all duration-1000 linear';
+                    timerBar.className = 'bg-gradient-to-r from-amber-400 to-yellow-500 h-full transition-all duration-1000 linear';
                 }
             };
 
@@ -368,25 +538,23 @@
             isProcessing = true;
 
             playSound('timeout');
+            triggerSadEmoticon();
 
             const allBtns = document.querySelectorAll('.option-btn');
             allBtns.forEach(b => b.disabled = true);
 
             const q = QUIZ_QUESTIONS[currentQuestionIndex];
             allBtns.forEach(b => {
-                if (parseInt(b.innerText) === q.answer) {
-                    b.className = 'option-btn w-full bg-emerald-500 text-white font-fredoka font-bold text-2xl py-3.5 px-4 rounded-2xl shadow-lg border-b-4 border-emerald-700';
+                if (b.getAttribute('data-answer') === q.answer) {
+                    b.className = 'option-btn w-full bg-emerald-500 text-white font-fredoka font-bold text-xl py-4 px-5 rounded-2xl shadow-xl border-b-4 border-emerald-700 text-left flex items-center space-x-4';
                 }
             });
 
-            lives--;
-            renderHearts();
-
             setTimeout(() => {
-                if (lives <= 0 || currentQuestionIndex + 1 >= QUIZ_QUESTIONS.length) {
+                currentQuestionIndex++;
+                if (currentQuestionIndex >= QUIZ_QUESTIONS.length) {
                     endQuiz();
                 } else {
-                    currentQuestionIndex++;
                     renderQuestion();
                 }
             }, 1500);
@@ -394,62 +562,33 @@
 
         function renderQuestion() {
             isProcessing = false;
-            document.getElementById('visualHelpBox').classList.add('hidden');
-            document.getElementById('helpBtnText').innerText = 'Tampilkan Bantuan Gambar Apel';
 
-            if (currentQuestionIndex >= QUIZ_QUESTIONS.length || lives <= 0) {
+            if (currentQuestionIndex >= QUIZ_QUESTIONS.length) {
                 endQuiz();
                 return;
             }
 
-            renderHearts();
             startTimer();
 
             const q = QUIZ_QUESTIONS[currentQuestionIndex];
             document.getElementById('questionProgress').innerText = `${currentQuestionIndex + 1} / ${QUIZ_QUESTIONS.length}`;
-            document.getElementById('mathQuestionText').innerText = `${q.num1} - ${q.num2} = ?`;
+            document.getElementById('mathQuestionText').innerText = q.question;
 
-            // Acak urutan pilihan jawaban
-            let opts = [...q.options].sort(() => Math.random() - 0.5);
             const container = document.getElementById('optionsContainer');
             container.innerHTML = '';
 
-            opts.forEach(opt => {
+            const labels = ['A', 'B', 'C', 'D'];
+            q.options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
-                btn.className = 'btn-bounce option-btn w-full bg-white hover:bg-sky-100 text-sky-900 font-fredoka font-bold text-2xl py-3.5 px-4 rounded-2xl shadow-md border-2 border-sky-200 hover:border-sky-400 transition text-center';
-                btn.innerText = opt;
+                btn.className = 'btn-bounce option-btn w-full bg-white hover:bg-purple-100 text-purple-950 font-fredoka font-bold text-lg md:text-xl py-4 px-5 rounded-2xl shadow-md border-3 border-purple-200 hover:border-purple-400 transition text-left flex items-center space-x-4';
+                btn.setAttribute('data-answer', opt);
+                btn.innerHTML = `
+                    <span class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-base shrink-0 border border-purple-300">${labels[idx]}</span>
+                    <span class="flex-grow">${opt}</span>
+                `;
                 btn.onclick = () => checkAnswer(opt, q.answer, btn);
                 container.appendChild(btn);
             });
-
-            generateAppleHelp(q.num1, q.num2);
-        }
-
-        function generateAppleHelp(total, taken) {
-            const applesContainer = document.getElementById('applesContainer');
-            applesContainer.innerHTML = '';
-
-            for (let i = 0; i < total; i++) {
-                const apple = document.createElement('span');
-                if (i < total - taken) {
-                    apple.innerHTML = '🍎';
-                } else {
-                    apple.innerHTML = '<span class="opacity-30 line-through grayscale">🍎</span>';
-                }
-                applesContainer.appendChild(apple);
-            }
-        }
-
-        function toggleVisualHelp() {
-            const helpBox = document.getElementById('visualHelpBox');
-            const helpText = document.getElementById('helpBtnText');
-            if (helpBox.classList.contains('hidden')) {
-                helpBox.classList.remove('hidden');
-                helpText.innerText = 'Sembunyikan Bantuan Gambar';
-            } else {
-                helpBox.classList.add('hidden');
-                helpText.innerText = 'Tampilkan Bantuan Gambar Apel';
-            }
         }
 
         function checkAnswer(selectedOpt, correctOpt, btn) {
@@ -462,35 +601,32 @@
 
             if (selectedOpt === correctOpt) {
                 playSound('correct');
-                btn.className = 'option-btn w-full bg-emerald-500 text-white font-fredoka font-bold text-2xl py-3.5 px-4 rounded-2xl shadow-lg border-b-4 border-emerald-700 animate-bounce';
-                score++;
-                stars += 20;
-                document.getElementById('globalStars').innerText = stars;
+                triggerFireworks();
+                
+                btn.className = 'option-btn w-full bg-emerald-500 text-white font-fredoka font-bold text-lg md:text-xl py-4 px-5 rounded-2xl shadow-xl border-b-4 border-emerald-700 text-left flex items-center space-x-4 animate-bounce';
+                correctAnswers++;
+                totalScore += 20;
+                document.getElementById('globalScore').innerText = totalScore;
 
                 setTimeout(() => {
                     currentQuestionIndex++;
                     renderQuestion();
-                }, 1200);
+                }, 1400);
             } else {
                 playSound('wrong');
-                btn.className = 'option-btn w-full bg-rose-500 text-white font-fredoka font-bold text-2xl py-3.5 px-4 rounded-2xl shadow-lg border-b-4 border-rose-700';
+                triggerSadEmoticon();
+
+                btn.className = 'option-btn w-full bg-rose-500 text-white font-fredoka font-bold text-lg md:text-xl py-4 px-5 rounded-2xl shadow-xl border-b-4 border-rose-700 text-left flex items-center space-x-4';
                 
                 allBtns.forEach(b => {
-                    if (parseInt(b.innerText) === correctOpt) {
-                        b.className = 'option-btn w-full bg-emerald-500 text-white font-fredoka font-bold text-2xl py-3.5 px-4 rounded-2xl shadow-lg border-b-4 border-emerald-700';
+                    if (b.getAttribute('data-answer') === correctOpt) {
+                        b.className = 'option-btn w-full bg-emerald-500 text-white font-fredoka font-bold text-lg md:text-xl py-4 px-5 rounded-2xl shadow-xl border-b-4 border-emerald-700 text-left flex items-center space-x-4';
                     }
                 });
 
-                lives--;
-                renderHearts();
-
                 setTimeout(() => {
-                    if (lives <= 0) {
-                        endQuiz();
-                    } else {
-                        currentQuestionIndex++;
-                        renderQuestion();
-                    }
+                    currentQuestionIndex++;
+                    renderQuestion();
                 }, 1500);
             }
         }
@@ -499,16 +635,17 @@
             clearInterval(timerInterval);
             showScreen('resultScreen');
 
-            document.getElementById('finalScoreText').innerText = `${score} / ${QUIZ_QUESTIONS.length}`;
-            document.getElementById('finalStarsText').innerText = `${stars} ★`;
+            document.getElementById('finalCorrectText').innerText = `${correctAnswers} / ${QUIZ_QUESTIONS.length}`;
+            document.getElementById('finalScoreText').innerText = totalScore;
 
             const msg = document.getElementById('resultMessage');
-            if (score === 5) {
-                msg.innerText = `Sempurna, ${studentName}! Kamu menjawab semua soal dengan benar! 🎉🌟`;
-            } else if (score >= 3) {
+            if (totalScore === 100) {
+                triggerFireworks();
+                msg.innerText = `Sempurna, ${studentName}! Kamu berhasil mendapat skor 100! 🎉🌟`;
+            } else if (totalScore >= 60) {
                 msg.innerText = `Hebat Sekali, ${studentName}! Nilaimu sangat bagus! 👍`;
             } else {
-                msg.innerText = `Tetap Semangat, ${studentName}! Belajar lagi pasti bisa mendapat skor sempurna! 💪`;
+                msg.innerText = `Tetap Semangat, ${studentName}! Belajar lagi pasti bisa dapat nilai 100! 💪`;
             }
         }
     </script>
