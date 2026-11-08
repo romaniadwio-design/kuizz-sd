@@ -175,9 +175,9 @@
     <!-- SIMBOL MATEMATIKA MELAYANG DI BACKGROUND -->
     <div class="math-symbol text-7xl top-[10%] left-[5%]" style="animation-delay: 0s;">+</div>
     <div class="math-symbol text-8xl top-[20%] right-[8%]" style="animation-delay: -2s;">−</div>
-    <div class="math-symbol text-7xl top-[60%] left-[6%]" style="animation-delay: -4s;">kg</div>
-    <div class="math-symbol text-7xl top-[75%] right-[10%]" style="animation-delay: -6s;">ons</div>
-    <div class="math-symbol text-9xl top-[40%] right-[45%]" style="animation-delay: -3s; color: rgba(255, 255, 255, 0.15);">1 kg</div>
+    <div class="math-symbol text-7xl top-[60%] left-[6%]" style="animation-delay: -4s;">12-5</div>
+    <div class="math-symbol text-7xl top-[75%] right-[10%]" style="animation-delay: -6s;">43-27</div>
+    <div class="math-symbol text-9xl top-[40%] right-[45%]" style="animation-delay: -3s; color: rgba(255, 255, 255, 0.15);">15-3</div>
     <div class="math-symbol text-7xl top-[85%] left-[40%]" style="animation-delay: -5s;">=</div>
 
     <!-- OVERLAY EMOTICON SEDIH -->
@@ -192,11 +192,11 @@
         <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center space-x-4 cursor-pointer" onclick="showScreen('loginScreen')">
                 <div class="w-12 h-12 rounded-2xl bg-amber-400 text-purple-950 flex items-center justify-center font-bold text-2xl shadow-xl border-2 border-amber-200">
-                    <i class="fa-solid fa-weight-hanging"></i>
+                    <i class="fa-solid fa-calculator"></i>
                 </div>
                 <div>
                     <h1 class="font-fredoka font-bold text-xl md:text-2xl leading-tight tracking-wide">KUIS MATEMATIKA</h1>
-                    <p class="text-xs md:text-sm text-rose-100 font-semibold">Pengukuran Berat Kelas 2 SD</p>
+                    <p class="text-xs md:text-sm text-rose-100 font-semibold">Pengurangan Kelas 2 SD</p>
                 </div>
             </div>
 
@@ -228,9 +228,9 @@
                 <span>Kuis oleh: <b class="text-rose-600">Romania</b></span>
             </div>
 
-            <h2 class="font-fredoka text-3xl md:text-5xl font-bold text-purple-950 mb-3">Siap Belajar Ukur Berat?</h2>
+            <h2 class="font-fredoka text-3xl md:text-5xl font-bold text-purple-950 mb-3">Siap Belajar Pengurangan?</h2>
             <p class="text-slate-600 text-base md:text-lg max-w-md mx-auto mb-8 font-medium leading-relaxed">
-                Ada 5 soal tantangan. Waktumu <b>1 menit 30 detik per soal</b>! Pastikan suaramu aktif ya 🔊
+                Ada 5 soal tantangan pengurangan. Waktumu <b>90 detik per soal</b>! Pastikan suaramu aktif ya 🔊
             </p>
 
             <form onsubmit="handleStartQuiz(event)" class="max-w-md mx-auto space-y-5">
@@ -267,19 +267,30 @@
                 <div id="timerBar" class="bg-gradient-to-r from-amber-400 to-yellow-500 h-full w-full transition-all duration-1000 linear"></div>
             </div>
 
-            <!-- KARTU SOAL PENGUKURAN BERAT -->
+            <!-- KARTU SOAL PENGURANGAN -->
             <div class="text-center mb-8">
-                <p class="text-xs md:text-sm font-bold text-purple-600 uppercase tracking-widest mb-3">Pertanyaan Kuis:</p>
+                <p class="text-xs md:text-sm font-bold text-purple-600 uppercase tracking-widest mb-3">Berapa Hasil Pengurangan Ini?</p>
 
                 <div class="bg-gradient-to-r from-purple-700 via-indigo-700 to-rose-600 text-white rounded-3xl p-6 md:p-8 shadow-2xl border-4 border-white">
-                    <h3 id="mathQuestionText" class="font-fredoka text-2xl md:text-4xl font-bold tracking-wide leading-relaxed">
-                        Soal...
+                    <h3 id="mathQuestionText" class="font-fredoka text-4xl md:text-6xl font-bold tracking-wider leading-relaxed">
+                        12 - 5 = ?
                     </h3>
+                </div>
+
+                <!-- BANTUAN VISUAL GAMBAR -->
+                <button onclick="toggleVisualHelp()" class="mt-4 text-xs md:text-sm font-bold text-purple-700 bg-purple-100 hover:bg-purple-200 px-4 py-2 rounded-xl border border-purple-300 transition inline-flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-apple-whole text-rose-500"></i>
+                    <span id="helpBtnText">Tampilkan Bantuan Gambar Apel</span>
+                </button>
+
+                <div id="visualHelpBox" class="hidden mt-4 bg-purple-50 p-4 rounded-2xl border-2 border-dashed border-purple-300">
+                    <p class="text-xs md:text-sm font-bold text-purple-800 mb-2">Hitung Apel (Apel pudar = yang dikurangi):</p>
+                    <div id="applesContainer" class="flex flex-wrap justify-center gap-1.5 text-xl md:text-2xl max-h-40 overflow-y-auto"></div>
                 </div>
             </div>
 
             <!-- PILIHAN JAWABAN -->
-            <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5 max-w-2xl mx-auto"></div>
+            <div id="optionsContainer" class="grid grid-cols-2 gap-4 md:gap-5 max-w-md mx-auto"></div>
         </section>
 
         <!-- 3. HALAMAN HASIL / SKOR -->
@@ -322,33 +333,13 @@
 
     <!-- LOGIKA JAVASCRIPT -->
     <script>
-        // SOAL PENGUKURAN BERAT BENDA
+        // SOAL PENGURANGAN KELAS 2 (12-5, 15-3, 23-12, 32-15, 43-27)
         const QUIZ_QUESTIONS = [
-            {
-                question: "Alat yang digunakan untuk mengukur berat benda adalah…",
-                answer: "Timbangan",
-                options: ["Timbangan", "Termometer", "Timbangan Badan", "Meteran"]
-            },
-            {
-                question: "Satuan baku yang digunakan untuk mengukur berat adalah…",
-                answer: "Ons dan kilogram",
-                options: ["Sentimeter dan meter", "Ons dan kilogram", "Liter dan mililiter", "Menit dan jam"]
-            },
-            {
-                question: "3 kilogram (kg) sama dengan … ons",
-                answer: "30 ons",
-                options: ["300 ons", "3.000 ons", "30 ons", "3 ons"]
-            },
-            {
-                question: "Jika sebuah semangka beratnya 5 kg, maka dalam ons beratnya adalah …",
-                answer: "50 ons",
-                options: ["5.000 ons", "500 ons", "5 ons", "50 ons"]
-            },
-            {
-                question: "Contoh benda yang beratnya biasanya diukur dalam kilogram (kg) adalah …",
-                answer: "Beras",
-                options: ["Sebungkus Permen", "Lemari", "Beras", "Mobil"]
-            }
+            { num1: 12, num2: 5, answer: 7, options: [6, 7, 8, 5] },
+            { num1: 15, num2: 3, answer: 12, options: [11, 12, 13, 10] },
+            { num1: 23, num2: 12, answer: 11, options: [10, 11, 12, 13] },
+            { num1: 32, num2: 15, answer: 17, options: [16, 17, 18, 15] },
+            { num1: 43, num2: 27, answer: 16, options: [15, 16, 17, 18] }
         ];
 
         let currentQuestionIndex = 0;
@@ -545,8 +536,8 @@
 
             const q = QUIZ_QUESTIONS[currentQuestionIndex];
             allBtns.forEach(b => {
-                if (b.getAttribute('data-answer') === q.answer) {
-                    b.className = 'option-btn w-full bg-emerald-500 text-white font-fredoka font-bold text-xl py-4 px-5 rounded-2xl shadow-xl border-b-4 border-emerald-700 text-left flex items-center space-x-4';
+                if (parseInt(b.innerText) === q.answer) {
+                    b.className = 'option-btn w-full bg-emerald-500 text-white font-fredoka font-bold text-2xl py-3.5 px-4 rounded-2xl shadow-lg border-b-4 border-emerald-700';
                 }
             });
 
@@ -562,6 +553,8 @@
 
         function renderQuestion() {
             isProcessing = false;
+            document.getElementById('visualHelpBox').classList.add('hidden');
+            document.getElementById('helpBtnText').innerText = 'Tampilkan Bantuan Gambar Apel';
 
             if (currentQuestionIndex >= QUIZ_QUESTIONS.length) {
                 endQuiz();
@@ -572,23 +565,52 @@
 
             const q = QUIZ_QUESTIONS[currentQuestionIndex];
             document.getElementById('questionProgress').innerText = `${currentQuestionIndex + 1} / ${QUIZ_QUESTIONS.length}`;
-            document.getElementById('mathQuestionText').innerText = q.question;
+            document.getElementById('mathQuestionText').innerText = `${q.num1} - ${q.num2} = ?`;
 
+            let opts = [...q.options].sort(() => Math.random() - 0.5);
             const container = document.getElementById('optionsContainer');
             container.innerHTML = '';
 
-            const labels = ['A', 'B', 'C', 'D'];
-            q.options.forEach((opt, idx) => {
+            opts.forEach(opt => {
                 const btn = document.createElement('button');
-                btn.className = 'btn-bounce option-btn w-full bg-white hover:bg-purple-100 text-purple-950 font-fredoka font-bold text-lg md:text-xl py-4 px-5 rounded-2xl shadow-md border-3 border-purple-200 hover:border-purple-400 transition text-left flex items-center space-x-4';
-                btn.setAttribute('data-answer', opt);
-                btn.innerHTML = `
-                    <span class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-base shrink-0 border border-purple-300">${labels[idx]}</span>
-                    <span class="flex-grow">${opt}</span>
-                `;
+                btn.className = 'btn-bounce option-btn w-full bg-white hover:bg-purple-100 text-purple-950 font-fredoka font-bold text-2xl py-3.5 px-4 rounded-2xl shadow-md border-3 border-purple-200 hover:border-purple-400 transition text-center';
+                btn.innerText = opt;
                 btn.onclick = () => checkAnswer(opt, q.answer, btn);
                 container.appendChild(btn);
             });
+
+            generateAppleHelp(q.num1, q.num2);
+        }
+
+        function generateAppleHelp(total, taken) {
+            const applesContainer = document.getElementById('applesContainer');
+            applesContainer.innerHTML = '';
+
+            // Batasi tampilan bantuan visual maksimal agar tetap rapi jika angka besar
+            const renderTotal = total > 30 ? 30 : total;
+            const renderTaken = total > 30 ? Math.round((taken / total) * 30) : taken;
+
+            for (let i = 0; i < renderTotal; i++) {
+                const apple = document.createElement('span');
+                if (i < renderTotal - renderTaken) {
+                    apple.innerHTML = '🍎';
+                } else {
+                    apple.innerHTML = '<span class="opacity-30 line-through grayscale">🍎</span>';
+                }
+                applesContainer.appendChild(apple);
+            }
+        }
+
+        function toggleVisualHelp() {
+            const helpBox = document.getElementById('visualHelpBox');
+            const helpText = document.getElementById('helpBtnText');
+            if (helpBox.classList.contains('hidden')) {
+                helpBox.classList.remove('hidden');
+                helpText.innerText = 'Sembunyikan Bantuan Gambar';
+            } else {
+                helpBox.classList.add('hidden');
+                helpText.innerText = 'Tampilkan Bantuan Gambar Apel';
+            }
         }
 
         function checkAnswer(selectedOpt, correctOpt, btn) {
@@ -603,7 +625,7 @@
                 playSound('correct');
                 triggerFireworks();
                 
-                btn.className = 'option-btn w-full bg-emerald-500 text-white font-fredoka font-bold text-lg md:text-xl py-4 px-5 rounded-2xl shadow-xl border-b-4 border-emerald-700 text-left flex items-center space-x-4 animate-bounce';
+                btn.className = 'option-btn w-full bg-emerald-500 text-white font-fredoka font-bold text-2xl py-3.5 px-4 rounded-2xl shadow-lg border-b-4 border-emerald-700 animate-bounce';
                 correctAnswers++;
                 totalScore += 20;
                 document.getElementById('globalScore').innerText = totalScore;
@@ -616,11 +638,11 @@
                 playSound('wrong');
                 triggerSadEmoticon();
 
-                btn.className = 'option-btn w-full bg-rose-500 text-white font-fredoka font-bold text-lg md:text-xl py-4 px-5 rounded-2xl shadow-xl border-b-4 border-rose-700 text-left flex items-center space-x-4';
+                btn.className = 'option-btn w-full bg-rose-500 text-white font-fredoka font-bold text-2xl py-3.5 px-4 rounded-2xl shadow-lg border-b-4 border-rose-700';
                 
                 allBtns.forEach(b => {
-                    if (b.getAttribute('data-answer') === correctOpt) {
-                        b.className = 'option-btn w-full bg-emerald-500 text-white font-fredoka font-bold text-lg md:text-xl py-4 px-5 rounded-2xl shadow-xl border-b-4 border-emerald-700 text-left flex items-center space-x-4';
+                    if (parseInt(b.innerText) === correctOpt) {
+                        b.className = 'option-btn w-full bg-emerald-500 text-white font-fredoka font-bold text-2xl py-3.5 px-4 rounded-2xl shadow-lg border-b-4 border-emerald-700';
                     }
                 });
 
