@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="id" class="h-full">
 <head>
     <meta charset="UTF-8">
@@ -196,7 +196,7 @@
                 </div>
                 <div>
                     <h1 class="font-fredoka font-bold text-xl md:text-2xl leading-tight tracking-wide">KUIS MATEMATIKA</h1>
-                    <p class="text-xs md:text-sm text-rose-100 font-semibold">Pengukuran Berat Kelas 3 SD</p>
+                    <p class="text-xs md:text-sm text-rose-100 font-semibold">Pengukuran Berat Kelas 2 SD</p>
                 </div>
             </div>
 
@@ -317,7 +317,7 @@
 
     <!-- FOOTER -->
     <footer class="bg-slate-950/90 backdrop-blur-md text-purple-200 text-xs md:text-sm text-center py-4 font-medium border-t border-purple-900/50 relative z-10">
-        <p>&copy; 2026 Kuis Matematika SD Kelas 3 — Dibuat oleh <b>Romania</b></p>
+        <p>&copy; 2026 Kuis Matematika SD Kelas 2 — Dibuat oleh <b>Romania</b></p>
     </footer>
 
     <!-- LOGIKA JAVASCRIPT -->
