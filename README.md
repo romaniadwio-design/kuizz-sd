@@ -1,675 +1,97 @@
  <!DOCTYPE html>
-<html lang="id" class="h-full">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Matematika Seru SD Kelas 2 - Romania</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Canvas Confetti Library untuk Kembang Api & Konfeti -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        kid: {
-                            bg: '#0F172A',
-                            primary: '#8B5CF6',
-                            accent: '#F43F5E',
-                            correct: '#10B981',
-                            wrong: '#EF4444'
-                        }
-                    },
-                    fontFamily: {
-                        fredoka: ['Fredoka', 'sans-serif'],
-                        sans: ['Plus Jakarta Sans', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style>
-        /* TEMA WARNA MODERN BOLD GRADIENT */
-        body {
-            background: #0B0F19;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* Continuous Moving Grid Background */
-        .math-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-            background-image: 
-                radial-gradient(rgba(139, 92, 246, 0.4) 2.5px, transparent 2.5px),
-                linear-gradient(to right, rgba(244, 63, 94, 0.1) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
-            background-size: 40px 40px, 80px 80px, 80px 80px;
-            animation: moveBg 18s linear infinite;
-        }
-
-        @keyframes moveBg {
-            0% { background-position: 0 0, 0 0, 0 0; }
-            100% { background-position: 400px 800px, 400px 400px, 400px 400px; }
-        }
-
-        /* Glowing Aurora Orbs yang Energik */
-        .aurora-orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.6;
-            pointer-events: none;
-            z-index: 0;
-            animation: floatOrb 8s ease-in-out infinite alternate;
-        }
-
-        .aurora-1 {
-            top: -15%;
-            left: -10%;
-            width: 55vw;
-            height: 55vw;
-            background: radial-gradient(circle, #7C3AED, #EC4899, transparent);
-        }
-
-        .aurora-2 {
-            bottom: -20%;
-            right: -10%;
-            width: 60vw;
-            height: 60vw;
-            background: radial-gradient(circle, #06B6D4, #3B82F6, transparent);
-            animation-delay: -4s;
-        }
-
-        .aurora-3 {
-            top: 30%;
-            right: 20%;
-            width: 40vw;
-            height: 40vw;
-            background: radial-gradient(circle, #F59E0B, #EF4444, transparent);
-            opacity: 0.35;
-            animation-delay: -2s;
-        }
-
-        @keyframes floatOrb {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(50px, 60px) scale(1.2); }
-        }
-
-        /* Floating Math Elements */
-        .math-symbol {
-            position: absolute;
-            color: rgba(255, 255, 255, 0.22);
-            text-shadow: 0 0 15px rgba(236, 72, 153, 0.6);
-            font-family: 'Fredoka', sans-serif;
-            font-weight: bold;
-            user-select: none;
-            animation: floatSymbol 10s ease-in-out infinite alternate;
-        }
-
-        @keyframes floatSymbol {
-            0% { transform: translateY(0px) rotate(0deg) scale(1); }
-            50% { transform: translateY(-40px) rotate(20deg) scale(1.2); }
-            100% { transform: translateY(30px) rotate(-18deg) scale(0.9); }
-        }
-
-        /* KARTU JAUH LEBIH BESAR DENGAN STYLING PREMIUM */
-        .glass-box {
-            background: rgba(255, 255, 255, 0.97);
-            backdrop-filter: blur(24px);
-            border: 4px solid rgba(244, 63, 94, 0.5);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(139, 92, 246, 0.3);
-        }
-
-        .btn-bounce:active {
-            transform: scale(0.96);
-        }
-
-        @keyframes pulse-timer {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-
-        .timer-warning {
-            animation: pulse-timer 0.5s infinite;
-            color: #EF4444 !important;
-        }
-
-        /* ANIMASI EMOTICON SEDIH SAAT SALAH */
-        @keyframes floatSadEmot {
-            0% { opacity: 0; transform: translate(-50%, -40%) scale(0.4) rotate(-10deg); }
-            25% { opacity: 1; transform: translate(-50%, -50%) scale(1.3) rotate(0deg); }
-            75% { opacity: 1; transform: translate(-50%, -70%) scale(1.1) rotate(5deg); }
-            100% { opacity: 0; transform: translate(-50%, -100%) scale(0.8) rotate(0deg); }
-        }
-
-        .animate-sad-emot {
-            animation: floatSadEmot 1.4s ease-out forwards;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kuis PKn</title>
+<style>
+:root{--bg:#e8f4fb;--card:#fff8e7;--fg:#1c1c3a;--brd:#d9a441;--ok:#2e9e4f;--no:#d63a3a;--btn:#fff;--head:#c62828;--hl:#ffd54f;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1b2a;--card:#2a2416;--fg:#f3ecd9;--brd:#a87b22;--btn:#3a3322;--head:#b71c1c}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:560px;margin:0 auto;padding:12px}
+.hero{background:var(--head);color:#fff;border-radius:18px;padding:16px;text-align:center;border:3px solid var(--hl)}
+.hero h1{margin:0;font-size:28px;letter-spacing:.5px}
+.hero p{margin:6px 0 0;font-size:14px}
+.bar{display:flex;justify-content:space-between;gap:8px;margin:12px 0;font-weight:700;font-size:14px}
+.bar span{background:var(--card);border:2px solid var(--brd);border-radius:12px;padding:6px 10px;flex:1;text-align:center}
+.q{background:var(--card);border:2px solid var(--brd);border-radius:16px;padding:12px;margin-bottom:12px}
+.qh{display:flex;gap:10px;align-items:flex-start}
+.n{flex:none;width:36px;height:36px;border-radius:50%;color:#fff;font-weight:800;display:grid;place-items:center;font-size:18px}
+.qh p{margin:0;font-weight:700;line-height:1.35}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+@media (max-width:380px){.opts{grid-template-columns:1fr}}
+.o{display:flex;gap:8px;align-items:center;text-align:left;background:var(--btn);color:var(--fg);border:2px solid var(--brd);border-radius:12px;padding:10px;font:inherit;font-size:14px;cursor:pointer}
+.o b{flex:none;width:24px;height:24px;border-radius:50%;background:var(--hl);color:#222;display:grid;place-items:center;font-size:13px}
+.o.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.o.no{background:var(--no);border-color:var(--no);color:#fff}
+.o:disabled{cursor:default}
+.fb{margin-top:8px;font-size:13px;display:none;line-height:1.4}
+.fb.on{display:block}
+.act{display:flex;gap:8px;margin:14px 0}
+.act button{flex:1;padding:13px;border:0;border-radius:12px;font:inherit;font-weight:700;font-size:15px;cursor:pointer}
+#key{background:#1976d2;color:#fff}#rst{background:#ef6c00;color:#fff}
+#res{display:none;text-align:center;background:var(--hl);color:#222;border-radius:16px;padding:14px;font-weight:700;margin-top:10px}
+#res.on{display:block}
+</style>
 </head>
-<body class="font-sans text-slate-800 min-h-screen flex flex-col justify-between antialiased">
-
-    <!-- EFEK AURORA NEON GLOW DI BACKGROUND -->
-    <div class="aurora-orb aurora-1"></div>
-    <div class="aurora-orb aurora-2"></div>
-    <div class="aurora-orb aurora-3"></div>
-
-    <!-- MATEMATIKA ANIMATED BACKGROUND GRID -->
-    <div class="math-bg"></div>
-
-    <!-- SIMBOL MATEMATIKA MELAYANG DI BACKGROUND -->
-    <div class="math-symbol text-7xl top-[10%] left-[5%]" style="animation-delay: 0s;">+</div>
-    <div class="math-symbol text-8xl top-[20%] right-[8%]" style="animation-delay: -2s;">−</div>
-    <div class="math-symbol text-7xl top-[60%] left-[6%]" style="animation-delay: -4s;">12-5</div>
-    <div class="math-symbol text-7xl top-[75%] right-[10%]" style="animation-delay: -6s;">43-27</div>
-    <div class="math-symbol text-9xl top-[40%] right-[45%]" style="animation-delay: -3s; color: rgba(255, 255, 255, 0.15);">15-3</div>
-    <div class="math-symbol text-7xl top-[85%] left-[40%]" style="animation-delay: -5s;">=</div>
-
-    <!-- OVERLAY EMOTICON SEDIH -->
-    <div id="sadOverlay" class="fixed inset-0 pointer-events-none z-50 hidden">
-        <div id="sadEmoji" class="absolute top-1/2 left-1/2 text-9xl md:text-[12rem] filter drop-shadow-2xl">
-            😭
-        </div>
-    </div>
-
-    <!-- HEADER -->
-    <header class="bg-gradient-to-r from-purple-700 via-pink-600 to-rose-600 backdrop-blur-md text-white shadow-2xl border-b-4 border-rose-400 relative z-10">
-        <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center space-x-4 cursor-pointer" onclick="showScreen('loginScreen')">
-                <div class="w-12 h-12 rounded-2xl bg-amber-400 text-purple-950 flex items-center justify-center font-bold text-2xl shadow-xl border-2 border-amber-200">
-                    <i class="fa-solid fa-calculator"></i>
-                </div>
-                <div>
-                    <h1 class="font-fredoka font-bold text-xl md:text-2xl leading-tight tracking-wide">KUIS MATEMATIKA</h1>
-                    <p class="text-xs md:text-sm text-rose-100 font-semibold">Pengurangan Kelas 2 SD</p>
-                </div>
-            </div>
-
-            <div class="flex items-center space-x-4">
-                <div id="playerBadge" class="hidden bg-purple-900/80 px-4 py-1.5 rounded-full text-xs md:text-sm font-bold text-purple-100 border border-purple-400 shadow">
-                    <i class="fa-solid fa-user-ninja mr-1.5 text-amber-300"></i> <span id="playerNameDisplay">Siswa</span>
-                </div>
-                <!-- SKOR DI HEADER -->
-                <div class="bg-amber-400 text-amber-950 px-4 py-1.5 rounded-full flex items-center space-x-2 font-fredoka font-bold text-base shadow-lg border-2 border-amber-300">
-                    <i class="fa-solid fa-trophy text-amber-700"></i>
-                    <span>Skor: <span id="globalScore">0</span></span>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- MAIN CONTAINER -->
-    <main class="max-w-4xl w-full mx-auto p-4 md:p-6 my-auto relative z-10 flex-grow flex items-center justify-center">
-
-        <!-- 1. HALAMAN LOGIN/MULAI -->
-        <section id="loginScreen" class="w-full glass-box rounded-3xl p-8 md:p-12 shadow-2xl text-center">
-            <div class="w-24 h-24 mx-auto mb-5 rounded-full bg-gradient-to-tr from-amber-300 to-yellow-400 border-4 border-amber-200 flex items-center justify-center text-6xl text-amber-800 shadow-lg animate-bounce">
-                <i class="fa-solid fa-face-grin-stars"></i>
-            </div>
-
-            <!-- IDENTITAS PEMILIK KUIS -->
-            <div class="inline-flex items-center gap-2.5 bg-gradient-to-r from-purple-100 to-rose-100 text-purple-900 px-5 py-2 rounded-full border-2 border-purple-300 font-fredoka text-sm md:text-base font-bold mb-4 shadow-sm">
-                <i class="fa-solid fa-crown text-amber-500 text-lg"></i>
-                <span>Kuis oleh: <b class="text-rose-600">Romania</b></span>
-            </div>
-
-            <h2 class="font-fredoka text-3xl md:text-5xl font-bold text-purple-950 mb-3">Siap Belajar Pengurangan?</h2>
-            <p class="text-slate-600 text-base md:text-lg max-w-md mx-auto mb-8 font-medium leading-relaxed">
-                Ada 5 soal tantangan pengurangan. Waktumu <b>90 detik per soal</b>! Pastikan suaramu aktif ya 🔊
-            </p>
-
-            <form onsubmit="handleStartQuiz(event)" class="max-w-md mx-auto space-y-5">
-                <div>
-                    <label class="block text-left font-fredoka text-purple-900 text-base md:text-lg font-semibold mb-2">Tulis Namamu:</label>
-                    <input type="text" id="studentNameInput" required placeholder="Contoh: Budi" class="w-full px-5 py-4 rounded-2xl border-4 border-purple-200 focus:border-rose-500 focus:ring-4 focus:ring-rose-200 outline-none font-bold text-slate-800 text-center text-xl md:text-2xl shadow-inner transition">
-                </div>
-
-                <button type="submit" class="btn-bounce w-full bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-amber-950 font-fredoka font-bold text-2xl py-4 px-8 rounded-2xl shadow-xl border-b-4 border-amber-700 transition flex items-center justify-center space-x-3">
-                    <span>Mulai Kuis</span>
-                    <i class="fa-solid fa-play"></i>
-                </button>
-            </form>
-        </section>
-
-        <!-- 2. HALAMAN KUIS / SOAL -->
-        <section id="quizScreen" class="hidden w-full glass-box rounded-3xl p-6 md:p-10 shadow-2xl">
-            <!-- STATUS BAR & TIMER -->
-            <div class="flex items-center justify-between mb-6 bg-purple-50 p-4 rounded-2xl border-2 border-purple-200">
-                <div class="flex items-center space-x-3">
-                    <span class="bg-gradient-to-r from-purple-600 to-rose-600 text-white font-fredoka text-sm md:text-base px-4 py-1.5 rounded-full shadow">Soal</span>
-                    <span id="questionProgress" class="font-fredoka font-bold text-purple-950 text-xl md:text-2xl">1 / 5</span>
-                </div>
-
-                <!-- TIMER 90 DETIK (01:30) -->
-                <div class="flex items-center space-x-2.5 bg-white px-5 py-2 rounded-2xl border-2 border-purple-200 shadow-sm">
-                    <i class="fa-solid fa-stopwatch text-amber-500 text-2xl" id="timerIcon"></i>
-                    <span id="timerText" class="font-fredoka font-bold text-purple-950 text-xl md:text-2xl w-16 text-center">01:30</span>
-                </div>
-            </div>
-
-            <!-- PROGRESS BAR WAKTU -->
-            <div class="w-full bg-slate-200 h-3.5 rounded-full overflow-hidden mb-8 shadow-inner">
-                <div id="timerBar" class="bg-gradient-to-r from-amber-400 to-yellow-500 h-full w-full transition-all duration-1000 linear"></div>
-            </div>
-
-            <!-- KARTU SOAL PENGURANGAN -->
-            <div class="text-center mb-8">
-                <p class="text-xs md:text-sm font-bold text-purple-600 uppercase tracking-widest mb-3">Berapa Hasil Pengurangan Ini?</p>
-
-                <div class="bg-gradient-to-r from-purple-700 via-indigo-700 to-rose-600 text-white rounded-3xl p-6 md:p-8 shadow-2xl border-4 border-white">
-                    <h3 id="mathQuestionText" class="font-fredoka text-4xl md:text-6xl font-bold tracking-wider leading-relaxed">
-                        12 - 5 = ?
-                    </h3>
-                </div>
-
-                <!-- BANTUAN VISUAL GAMBAR -->
-                <button onclick="toggleVisualHelp()" class="mt-4 text-xs md:text-sm font-bold text-purple-700 bg-purple-100 hover:bg-purple-200 px-4 py-2 rounded-xl border border-purple-300 transition inline-flex items-center gap-2 shadow-sm">
-                    <i class="fa-solid fa-apple-whole text-rose-500"></i>
-                    <span id="helpBtnText">Tampilkan Bantuan Gambar Apel</span>
-                </button>
-
-                <div id="visualHelpBox" class="hidden mt-4 bg-purple-50 p-4 rounded-2xl border-2 border-dashed border-purple-300">
-                    <p class="text-xs md:text-sm font-bold text-purple-800 mb-2">Hitung Apel (Apel pudar = yang dikurangi):</p>
-                    <div id="applesContainer" class="flex flex-wrap justify-center gap-1.5 text-xl md:text-2xl max-h-40 overflow-y-auto"></div>
-                </div>
-            </div>
-
-            <!-- PILIHAN JAWABAN -->
-            <div id="optionsContainer" class="grid grid-cols-2 gap-4 md:gap-5 max-w-md mx-auto"></div>
-        </section>
-
-        <!-- 3. HALAMAN HASIL / SKOR -->
-        <section id="resultScreen" class="hidden w-full glass-box rounded-3xl p-8 md:p-12 shadow-2xl text-center">
-            <div class="w-28 h-28 mx-auto mb-5 rounded-full bg-amber-100 border-4 border-amber-400 flex items-center justify-center text-6xl text-amber-500 shadow-lg">
-                <i class="fa-solid fa-trophy"></i>
-            </div>
-
-            <h2 class="font-fredoka text-4xl md:text-5xl font-bold text-purple-950 mb-2">Hore! Kuis Selesai!</h2>
-            <p id="resultMessage" class="text-slate-600 text-base md:text-lg font-medium mb-8">Hebat sekali, kamu berhasil menyelesaikan tantangan!</p>
-
-            <div class="bg-purple-50 rounded-3xl p-6 max-w-md mx-auto mb-8 border-2 border-purple-200 grid grid-cols-2 gap-4 shadow-sm">
-                <div>
-                    <span class="block text-xs md:text-sm font-bold text-purple-600 uppercase tracking-wider">Jawaban Benar</span>
-                    <span id="finalCorrectText" class="font-fredoka text-4xl font-bold text-purple-950">0 / 5</span>
-                </div>
-                <div>
-                    <span class="block text-xs md:text-sm font-bold text-purple-600 uppercase tracking-wider">Total Skor</span>
-                    <span id="finalScoreText" class="font-fredoka text-4xl font-bold text-amber-500">0</span>
-                </div>
-            </div>
-
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
-                <button onclick="startQuiz()" class="btn-bounce w-full bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-amber-950 font-fredoka font-bold text-xl py-4 px-8 rounded-2xl shadow-lg border-b-4 border-amber-700 transition flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-rotate-right"></i>
-                    <span>Coba Lagi</span>
-                </button>
-                <button onclick="showScreen('loginScreen')" class="btn-bounce w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-fredoka font-bold text-xl py-4 px-8 rounded-2xl shadow-md transition">
-                    Ganti Nama
-                </button>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-slate-950/90 backdrop-blur-md text-purple-200 text-xs md:text-sm text-center py-4 font-medium border-t border-purple-900/50 relative z-10">
-        <p>&copy; 2026 Kuis Matematika SD Kelas 2 — Dibuat oleh <b>Romania</b></p>
-    </footer>
-
-    <!-- LOGIKA JAVASCRIPT -->
-    <script>
-        // SOAL PENGURANGAN KELAS 2 (12-5, 15-3, 23-12, 32-15, 43-27)
-        const QUIZ_QUESTIONS = [
-            { num1: 12, num2: 5, answer: 7, options: [6, 7, 8, 5] },
-            { num1: 15, num2: 3, answer: 12, options: [11, 12, 13, 10] },
-            { num1: 23, num2: 12, answer: 11, options: [10, 11, 12, 13] },
-            { num1: 32, num2: 15, answer: 17, options: [16, 17, 18, 15] },
-            { num1: 43, num2: 27, answer: 16, options: [15, 16, 17, 18] }
-        ];
-
-        let currentQuestionIndex = 0;
-        let correctAnswers = 0;
-        let totalScore = 0;
-        let isProcessing = false;
-        let studentName = '';
-        
-        // Timer Variables (90 Detik = 1.5 Menit per soal)
-        const TOTAL_TIME_PER_QUESTION = 90;
-        let timeLeft = TOTAL_TIME_PER_QUESTION;
-        let timerInterval = null;
-
-        // WEB AUDIO SYNTHESIZER
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-        function playSound(type) {
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-            
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            const compressor = audioCtx.createDynamicsCompressor();
-
-            osc.connect(gain);
-            gain.connect(compressor);
-            compressor.connect(audioCtx.destination);
-
-            const now = audioCtx.currentTime;
-
-            if (type === 'correct') {
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(523.25, now);
-                osc.frequency.setValueAtTime(659.25, now + 0.08);
-                osc.frequency.setValueAtTime(783.99, now + 0.16);
-                osc.frequency.setValueAtTime(1046.50, now + 0.24);
-
-                gain.gain.setValueAtTime(1.0, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
-
-                osc.start(now);
-                osc.stop(now + 0.6);
-            } else if (type === 'wrong') {
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(220, now);
-                osc.frequency.setValueAtTime(140, now + 0.15);
-
-                gain.gain.setValueAtTime(1.0, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.45);
-
-                osc.start(now);
-                osc.stop(now + 0.45);
-            } else if (type === 'warning') {
-                osc.type = 'square';
-                osc.frequency.setValueAtTime(950, now);
-
-                gain.gain.setValueAtTime(0.8, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
-
-                osc.start(now);
-                osc.stop(now + 0.12);
-            } else if (type === 'timeout') {
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(350, now);
-                osc.frequency.setValueAtTime(180, now + 0.2);
-
-                gain.gain.setValueAtTime(1.0, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
-
-                osc.start(now);
-                osc.stop(now + 0.5);
-            }
-        }
-
-        function triggerFireworks() {
-            const count = 200;
-            const defaults = { origin: { y: 0.7 } };
-
-            function fire(particleRatio, opts) {
-                confetti(Object.assign({}, defaults, opts, {
-                    particleCount: Math.floor(count * particleRatio)
-                }));
-            }
-
-            fire(0.25, { spread: 26, startVelocity: 55 });
-            fire(0.2, { spread: 60 });
-            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
-            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
-            fire(0.1, { spread: 120, startVelocity: 45 });
-        }
-
-        function triggerSadEmoticon() {
-            const overlay = document.getElementById('sadOverlay');
-            const emoji = document.getElementById('sadEmoji');
-            
-            const sadEmojis = ['😭', '😢', '💔', '🥺', '😞'];
-            emoji.innerText = sadEmojis[Math.floor(Math.random() * sadEmojis.length)];
-
-            overlay.classList.remove('hidden');
-            emoji.classList.remove('animate-sad-emot');
-            
-            void emoji.offsetWidth;
-            
-            emoji.classList.add('animate-sad-emot');
-
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-            }, 1400);
-        }
-
-        function showScreen(screenId) {
-            ['loginScreen', 'quizScreen', 'resultScreen'].forEach(id => {
-                document.getElementById(id).classList.add('hidden');
-            });
-            document.getElementById(screenId).classList.remove('hidden');
-        }
-
-        function handleStartQuiz(e) {
-            e.preventDefault();
-            const nameInput = document.getElementById('studentNameInput').value.trim();
-            if (!nameInput) return;
-
-            studentName = nameInput;
-            document.getElementById('playerNameDisplay').innerText = studentName;
-            document.getElementById('playerBadge').classList.remove('hidden');
-
-            startQuiz();
-        }
-
-        function startQuiz() {
-            currentQuestionIndex = 0;
-            correctAnswers = 0;
-            totalScore = 0;
-            isProcessing = false;
-
-            document.getElementById('globalScore').innerText = totalScore;
-            showScreen('quizScreen');
-            renderQuestion();
-        }
-
-        function startTimer() {
-            clearInterval(timerInterval);
-            timeLeft = TOTAL_TIME_PER_QUESTION; // 90 Detik
-            
-            const timerText = document.getElementById('timerText');
-            const timerBar = document.getElementById('timerBar');
-            const timerIcon = document.getElementById('timerIcon');
-
-            timerText.classList.remove('timer-warning');
-            timerIcon.classList.remove('timer-warning');
-
-            const updateDisplay = () => {
-                const mins = Math.floor(timeLeft / 60);
-                const secs = timeLeft % 60;
-                timerText.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-                
-                const percentage = (timeLeft / TOTAL_TIME_PER_QUESTION) * 100;
-                timerBar.style.width = `${percentage}%`;
-
-                if (timeLeft <= 15 && timeLeft > 0) {
-                    timerText.classList.add('timer-warning');
-                    timerIcon.classList.add('timer-warning');
-                    timerBar.className = 'bg-rose-500 h-full transition-all duration-1000 linear';
-                    
-                    playSound('warning');
-                } else {
-                    timerBar.className = 'bg-gradient-to-r from-amber-400 to-yellow-500 h-full transition-all duration-1000 linear';
-                }
-            };
-
-            updateDisplay();
-
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                updateDisplay();
-
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    handleTimeout();
-                }
-            }, 1000);
-        }
-
-        function handleTimeout() {
-            if (isProcessing) return;
-            isProcessing = true;
-
-            playSound('timeout');
-            triggerSadEmoticon();
-
-            const allBtns = document.querySelectorAll('.option-btn');
-            allBtns.forEach(b => b.disabled = true);
-
-            const q = QUIZ_QUESTIONS[currentQuestionIndex];
-            allBtns.forEach(b => {
-                if (parseInt(b.innerText) === q.answer) {
-                    b.className = 'option-btn w-full bg-emerald-500 text-white font-fredoka font-bold text-2xl py-3.5 px-4 rounded-2xl shadow-lg border-b-4 border-emerald-700';
-                }
-            });
-
-            setTimeout(() => {
-                currentQuestionIndex++;
-                if (currentQuestionIndex >= QUIZ_QUESTIONS.length) {
-                    endQuiz();
-                } else {
-                    renderQuestion();
-                }
-            }, 1500);
-        }
-
-        function renderQuestion() {
-            isProcessing = false;
-            document.getElementById('visualHelpBox').classList.add('hidden');
-            document.getElementById('helpBtnText').innerText = 'Tampilkan Bantuan Gambar Apel';
-
-            if (currentQuestionIndex >= QUIZ_QUESTIONS.length) {
-                endQuiz();
-                return;
-            }
-
-            startTimer();
-
-            const q = QUIZ_QUESTIONS[currentQuestionIndex];
-            document.getElementById('questionProgress').innerText = `${currentQuestionIndex + 1} / ${QUIZ_QUESTIONS.length}`;
-            document.getElementById('mathQuestionText').innerText = `${q.num1} - ${q.num2} = ?`;
-
-            let opts = [...q.options].sort(() => Math.random() - 0.5);
-            const container = document.getElementById('optionsContainer');
-            container.innerHTML = '';
-
-            opts.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = 'btn-bounce option-btn w-full bg-white hover:bg-purple-100 text-purple-950 font-fredoka font-bold text-2xl py-3.5 px-4 rounded-2xl shadow-md border-3 border-purple-200 hover:border-purple-400 transition text-center';
-                btn.innerText = opt;
-                btn.onclick = () => checkAnswer(opt, q.answer, btn);
-                container.appendChild(btn);
-            });
-
-            generateAppleHelp(q.num1, q.num2);
-        }
-
-        function generateAppleHelp(total, taken) {
-            const applesContainer = document.getElementById('applesContainer');
-            applesContainer.innerHTML = '';
-
-            // Batasi tampilan bantuan visual maksimal agar tetap rapi jika angka besar
-            const renderTotal = total > 30 ? 30 : total;
-            const renderTaken = total > 30 ? Math.round((taken / total) * 30) : taken;
-
-            for (let i = 0; i < renderTotal; i++) {
-                const apple = document.createElement('span');
-                if (i < renderTotal - renderTaken) {
-                    apple.innerHTML = '🍎';
-                } else {
-                    apple.innerHTML = '<span class="opacity-30 line-through grayscale">🍎</span>';
-                }
-                applesContainer.appendChild(apple);
-            }
-        }
-
-        function toggleVisualHelp() {
-            const helpBox = document.getElementById('visualHelpBox');
-            const helpText = document.getElementById('helpBtnText');
-            if (helpBox.classList.contains('hidden')) {
-                helpBox.classList.remove('hidden');
-                helpText.innerText = 'Sembunyikan Bantuan Gambar';
-            } else {
-                helpBox.classList.add('hidden');
-                helpText.innerText = 'Tampilkan Bantuan Gambar Apel';
-            }
-        }
-
-        function checkAnswer(selectedOpt, correctOpt, btn) {
-            if (isProcessing) return;
-            isProcessing = true;
-            clearInterval(timerInterval);
-
-            const allBtns = document.querySelectorAll('.option-btn');
-            allBtns.forEach(b => b.disabled = true);
-
-            if (selectedOpt === correctOpt) {
-                playSound('correct');
-                triggerFireworks();
-                
-                btn.className = 'option-btn w-full bg-emerald-500 text-white font-fredoka font-bold text-2xl py-3.5 px-4 rounded-2xl shadow-lg border-b-4 border-emerald-700 animate-bounce';
-                correctAnswers++;
-                totalScore += 20;
-                document.getElementById('globalScore').innerText = totalScore;
-
-                setTimeout(() => {
-                    currentQuestionIndex++;
-                    renderQuestion();
-                }, 1400);
-            } else {
-                playSound('wrong');
-                triggerSadEmoticon();
-
-                btn.className = 'option-btn w-full bg-rose-500 text-white font-fredoka font-bold text-2xl py-3.5 px-4 rounded-2xl shadow-lg border-b-4 border-rose-700';
-                
-                allBtns.forEach(b => {
-                    if (parseInt(b.innerText) === correctOpt) {
-                        b.className = 'option-btn w-full bg-emerald-500 text-white font-fredoka font-bold text-2xl py-3.5 px-4 rounded-2xl shadow-lg border-b-4 border-emerald-700';
-                    }
-                });
-
-                setTimeout(() => {
-                    currentQuestionIndex++;
-                    renderQuestion();
-                }, 1500);
-            }
-        }
-
-        function endQuiz() {
-            clearInterval(timerInterval);
-            showScreen('resultScreen');
-
-            document.getElementById('finalCorrectText').innerText = `${correctAnswers} / ${QUIZ_QUESTIONS.length}`;
-            document.getElementById('finalScoreText').innerText = totalScore;
-
-            const msg = document.getElementById('resultMessage');
-            if (totalScore === 100) {
-                triggerFireworks();
-                msg.innerText = `Sempurna, ${studentName}! Kamu berhasil mendapat skor 100! 🎉🌟`;
-            } else if (totalScore >= 60) {
-                msg.innerText = `Hebat Sekali, ${studentName}! Nilaimu sangat bagus! 👍`;
-            } else {
-                msg.innerText = `Tetap Semangat, ${studentName}! Belajar lagi pasti bisa dapat nilai 100! 💪`;
-            }
-        }
-    </script>
+<body>
+<div class="wrap">
+  <div class="hero"><h1>Kuis PKn</h1><p>Pancasila, Simbol, dan Hak serta Kewajiban<br>Pilihlah jawaban yang paling tepat!</p></div>
+  <div class="bar"><span id="s1">Terjawab 0/5</span><span id="s2">Benar 0</span></div>
+  <div id="list"></div>
+  <div id="res"></div>
+  <div class="act"><button id="key">Lihat Kunci Jawaban</button><button id="rst">Ulangi</button></div>
+</div>
+<script>
+const Q=[
+{q:"Apa kedudukan Pancasila bagi bangsa Indonesia?",o:["Lambang negara","Dasar negara","Peraturan daerah","Semboyan bangsa"],a:1,e:"Pancasila adalah dasar negara Indonesia.",c:"#e53935"},
+{q:"Simbol yang melambangkan sila pertama Pancasila adalah ....",o:["Rantai emas","Bintang","Pohon beringin","Kepala banteng"],a:1,e:"Bintang melambangkan sila pertama, Ketuhanan Yang Maha Esa.",c:"#fb8c00"},
+{q:"Rantai emas merupakan simbol dari sila Pancasila yang ke ....",o:["Pertama","Kedua","Ketiga","Keempat"],a:1,e:"Rantai emas melambangkan sila kedua, Kemanusiaan yang Adil dan Beradab.",c:"#43a047"},
+{q:"Manakah contoh kewajiban warga negara?",o:["Mendapatkan pendidikan","Mendapatkan kesehatan","Menjaga persatuan dan menaati hukum","Mendapatkan perlindungan"],a:2,e:"Menjaga persatuan dan menaati hukum adalah kewajiban; yang lain adalah hak.",c:"#1e88e5"},
+{q:"Pohon beringin melambangkan sila ke ....",o:["Satu","Dua","Tiga","Empat"],a:2,e:"Pohon beringin melambangkan sila ketiga, Persatuan Indonesia.",c:"#8e24aa"}
+];
+const L="ABCD",st=Q.map(()=>null);
+const list=document.getElementById("list");
+function render(){
+ list.innerHTML="";
+ Q.forEach((x,i)=>{
+  const d=document.createElement("div");d.className="q";
+  d.innerHTML='<div class="qh"><div class="n" style="background:'+x.c+'">'+(i+1)+'</div><p>'+x.q+'</p></div><div class="opts"></div><div class="fb"></div>';
+  const ob=d.querySelector(".opts");
+  x.o.forEach((t,j)=>{
+   const b=document.createElement("button");b.className="o";b.innerHTML="<b>"+L[j]+"</b><span>"+t+"</span>";
+   b.onclick=()=>pick(i,j);ob.appendChild(b);
+  });
+  list.appendChild(d);
+ });
+}
+function paint(i,reveal){
+ const d=list.children[i],bs=d.querySelectorAll(".o"),fb=d.querySelector(".fb"),p=st[i];
+ bs.forEach((b,j)=>{
+  b.classList.remove("ok","no");
+  if(p!==null||reveal){b.disabled=true;if(j===Q[i].a)b.classList.add("ok");else if(j===p)b.classList.add("no");}
+ });
+ if(p!==null||reveal){
+  fb.classList.add("on");
+  fb.textContent=(p===null?"Jawaban: ":(p===Q[i].a?"Benar! ":"Kurang tepat. Jawaban: "))+L[Q[i].a]+". "+Q[i].o[Q[i].a]+". "+Q[i].e;
+ }
+}
+function pick(i,j){
+ if(st[i]!==null)return;
+ st[i]=j;paint(i,false);stat();
+}
+function stat(){
+ const done=st.filter(v=>v!==null).length,ok=st.filter((v,i)=>v===Q[i].a).length;
+ s1.textContent="Terjawab "+done+"/5";s2.textContent="Benar "+ok;
+ const r=document.getElementById("res");
+ if(done===5){r.classList.add("on");r.textContent="Skor kamu: "+(ok*20)+" ("+ok+" dari 5 benar). "+(ok===5?"Sempurna, hebat!":ok>=3?"Bagus, terus belajar!":"Ayo belajar lagi, kamu pasti bisa!");}
+ else r.classList.remove("on");
+}
+document.getElementById("key").onclick=()=>{Q.forEach((_,i)=>paint(i,true));};
+document.getElementById("rst").onclick=()=>{st.fill(null);render();stat();window.scrollTo(0,0);};
+render();stat();
+</script>
 </body>
 </html>
